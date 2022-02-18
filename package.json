@@ -1,0 +1,24 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "基于node.js & express 框架的api",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Escher1108/api.git"
+  },
+  "author": "Escher1108",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Escher1108/api/issues"
+  },
+  "homepage": "https://github.com/Escher1108/api#readme",
+  "dependencies": {
+    "axios": "^0.26.0",
+    "express": "^4.17.3"
+  }
+}
