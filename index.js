@@ -7,6 +7,10 @@ const PORT = process.env.PORT || 5655
 
 app.use(express.json())
 
+app.get('/',(req,res)=>{
+    res.send({status:'API is running',Author:'Escher1108',website:'https://jkgblog.com',Email:'contact@jsproxy.cyou'})
+})
+
 app.post('/message', (req, res) => {
     let result = req.body
     let data = {
@@ -49,6 +53,8 @@ app.post('/gps', (req, res) => {
         if (response) {
             let dataNum = await response.data
             return res.json(dataNum)
+        }else{
+            return res.send({msg:'非法访问'})
         }
     }).catch(err => {
         console.log(err)
