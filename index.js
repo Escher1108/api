@@ -1,5 +1,6 @@
 const express = require('express')
 const axios = require('axios')
+const { response } = require('express')
 
 const app = express()
 
@@ -7,30 +8,29 @@ const PORT = process.env.PORT || 5655
 
 app.use(express.json())
 
-app.get('/',(req,res)=>{
-    res.send({status:'API is running',Author:'Escher1108',website:'https://jkgblog.com',Email:'contact@jsproxy.cyou'})
+app.get('/', (req, res) => {
+    res.send({ status: 'API is running', Author: 'Escher1108', website: 'https://jkgblog.com', Email: 'contact@jsproxy.cyou' })
 })
 
 app.post('/message', (req, res) => {
-    let result = req.body
-    let data = {
-        text: result.text,
-        desp: `基本数据：${result.desp}`
-    }
-    axios.post('https://hs.jkgblog.com/api.php', data).then(res => {
-        console.log(res)
-    }).catch(err => err)
-
     res.set({
         "Access-Control-Allow-Origin": "*"
         , "Access-Control-Allow-Methods": "POST"
         , "Access-Control-Allow-Credentials": "true"
     });
 
-    res.json({
-        status: 200,
-        msg: '发送信息成功'
-    }).end()
+    let result = req.body
+    let data = {
+        text: result.text,
+        desp: `基本数据：${result.desp}`
+    }
+    axios.post('https://hs.jkgblog.com/api.php', data).then(response => {
+        return res.send(response.data)
+    }).catch(err => {
+        return res.send(response.data)
+    })
+
+
 });
 
 app.post('/gps', (req, res) => {
@@ -50,14 +50,10 @@ app.post('/gps', (req, res) => {
 
     let url = 'https://restapi.amap.com/v3/geocode/regeo'
     axios.get(url, { params: gpsInfo }).then(async (response) => {
-        if (response) {
-            let dataNum = await response.data
-            return res.json(dataNum)
-        }else{
-            return res.send({msg:'非法访问'})
-        }
+        let dataNum = await response.data
+        return res.json(dataNum)
     }).catch(err => {
-        console.log(err)
+        return res.send({ msg: '非法访问' })
     })
 
 });
