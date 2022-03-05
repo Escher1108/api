@@ -59,6 +59,29 @@ app.post('/gps', (req, res) => {
 });
 
 
+app.post('/privacy', (req, res) => {
+    let result = req.body
+    let data = {
+        value:result.value
+    }
+
+    res.set({
+        "Access-Control-Allow-Origin": "*"
+        , "Access-Control-Allow-Methods": "POST"
+        , "Access-Control-Allow-Credentials": "true"
+    });
+
+    let url = 'https://privacy.aiuys.com/api/query'
+    axios.get(url, { params: data }).then(async (response) => {
+        let dataNum = await response.data
+        return res.json(dataNum)
+    }).catch(err => {
+        return res.send({ msg: '非法访问' })
+    })
+
+});
+
+
 app.listen(PORT, () => {
     console.log('服务运行中~')
 })
